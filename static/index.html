@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+登陆查询<br/>
+
+
+<label>用户名: <input type=”text” id="Name" value="" /></label><br />
+<label>密码: <input type="password" id="secret" value="" /></label><br />
+<button onclick="send()">登陆</button>
+<script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script>
+    function send(){
+        // $.get("/hello",function (d) {
+        //  alert(d);
+        // })
+        var user = document.getElementById("Name").value;
+        var secret = document.getElementById("secret").value;
+        $.post("/r",function(d)
+        {
+
+            alert(d);
+        })
+    }
+
+</script>
+
+
+
+
+</body>
+</html>

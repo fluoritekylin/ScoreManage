@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="unpkg.com/element-ui@2.11.0/lib/theme-chalk/index.css">
+</head>
+<style>
+    .el-menu-item {
+        width: 100%;
+    }
+
+    .el-header {
+        background-color: #E4E7ED;
+        color: #333;
+        line-height: 80px;
+        width: 100%;
+    }
+
+    .el-menu {
+        display: flex;
+        height: 480px;
+        flex-flow: column wrap;
+        justify-content: space-around;
+    }
+
+    .el-main {
+        display: flex;
+        background-color: #EBEEF5;
+        flex-flow: column wrap;
+        justify-content: center;
+    }
+    .search{
+        display: flex;
+        flex-wrap: nowrap;
+        width: 250px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <el-container>
+            <el-header style="text-align:center; font-size: 20px" height="80px">
+                <i class="el-icon-user-solid" style="margin-right: 20px"></i>
+                <span>管理员</span>
+            </el-header>
+            <el-container>
+                <el-aside width="250px">
+                    <el-menu background-color="#DCDFE6" text-color="#606266" active-text-color="#ffd04b"
+                        default-active="5">
+                        <el-menu-item index="0">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title" style="text-align:left">导航</span>
+                        </el-menu-item>
+                        <el-menu-item index="1" style="text-align: center" onclick="window.location.href='timetest.html'">时间管理</el-menu-item>
+                        <el-menu-item index="2" style="text-align: center">成绩排名</el-menu-item>
+                        <el-menu-item index="3" style="text-align: center">加权平均分计算</el-menu-item>
+                        <el-menu-item index="4" style="text-align: center" onclick="window.location.href='checkScore.html'">分数审核</el-menu-item>
+                        <el-menu-item index="5"style="text-align: center">课程安排</el-menu-item>
+                        <el-menu-item index="6" style="text-align: center" onclick="window.location.href='administrator.html'">返回首页</el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                    <el-table :data="tableData.slice((currentPage-1)*PageSize,currentPage*PageSize)">
+                        <el-table-column prop="cou_ID" label="课程ID"></el-table-column>
+                        <el-table-column prop="cou_Name" label="课程名称"></el-table-column>
+                        <el-table-column prop="cou_Teacher" label="任课教师"></el-table-column>
+                        <el-table-column prop="cou_Time" label="上课时间">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.cou_Time" v-if="scope.row.isEditT"></el-input>
+                                <label v-if="scope.row.isTime">{{scope.row.cou_Time}}</label>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="cou_Location" label="上课地点">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.cou_Location" v-if="scope.row.isEditL"></el-input>
+                                <label v-if="scope.row.isLoc">{{scope.row.cou_Location}}</label>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope" class="option">
+                                <el-button size="mini" v-if="scope.row.isEdit"
+                                    @click="send(scope.$index,scope.row)">编辑</el-button>
+                                <el-button size="mini" v-if="scope.row.isSave"
+                                    @click="onSave(scope.$index,scope.row)">保存</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div>
+                        <el-pagination @size-change="handleSizeChange"
+                                       @current-change="handleCurrentChange"
+                                       :current-page="currentPage"
+                                       :page-sizes="pageSizes"
+                                       :page-size="PageSize" layout="total, sizes, prev, pager, next, jumper"
+                                       :total="totalCount">
+                        </el-pagination>
+                    </div>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                length:'',
+                tableData: [],
+                currentPage:1,
+                // 总条数，根据接口获取数据长度(注意：这里不能为空)
+                totalCount:1,
+                // 个数选择器（可修改）
+                pageSizes:[6,8,10],
+                // 默认每页显示的条数（可修改）
+                PageSize:6,
+            }
+        },
+        methods: {
+            onSave(index,row) {
+                app.tableData[index].isEditT=false;
+                app.tableData[index].isTime=true;
+                app.tableData[index].isEditL=false;
+                app.tableData[index].isLoc=true;
+                app.tableData[index].isEdit=true;
+                app.tableData[index].isSave=false;
+                var couID=app.tableData[index].cou_ID;
+                var cou_Time=app.tableData[index].cou_Time;
+                var cou_Location=app.tableData[index].cou_Location;
+                $.post("/updateCou",{couid:couID,ctime:cou_Time,Cou_Location:cou_Location},function(d){
+
+                })
+            },
+            send(index,row) {
+                app.tableData[index].isEditT=true;
+                app.tableData[index].isTime=false;
+                app.tableData[index].isEditL=true;
+                app.tableData[index].isLoc=false;
+                app.tableData[index].isEdit=false;
+                app.tableData[index].isSave=true;
+            },
+            handleSizeChange(val) {
+                // 改变每页显示的条数
+                this.PageSize=val
+                // 注意：在改变每页显示的条数时，要将页码显示到第一页
+                this.currentPage=1
+            },
+            // 显示第几页
+            handleCurrentChange(val) {
+                // 改变默认的页数
+                this.currentPage=val
+            }
+        },
+        mounted(){
+            $.post("/getCourse",function(d){
+                     var len =d.length;
+                     app.totalCount=d.length;
+                     for(var i=0;i<len;i++){
+                         d[i].isTime=true;//控制输入框
+                         d[i].isEditT=false;
+                         d[i].isLoc=true;
+                         d[i].isEditL=false;
+                         d[i].isEdit=true;
+                         d[i].isSave=false;
+                         var time=d[i].cou_Time;//处理显示时间
+                         var temp=new Date(time);
+                         var times=temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate() + ' ' + temp.getHours() + ':' + temp.getMinutes() + ':' + temp.getSeconds();
+                         if(times==="1970-1-1 8:0:0") d[i].cou_Time=' ';
+                         else                         d[i].cou_Time=times;
+                     }
+                     app.tableData=d;
+                })
+
+        }
+    })
+</script>
+
+</html>
