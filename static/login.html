@@ -33,7 +33,6 @@
 
     .el-form-item {
         width: 350px;
-        margin: 20px;
     }
 </style>
 
@@ -54,7 +53,7 @@
                     <el-option label="管理员" value="管理员"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item id="btns">
+            <el-form-item style="text-align: center;">
                 <el-button size="medium" v-on:click="send()">登录</el-button>
                 <el-button size="medium" onclick="window.location.href='/r'">注册</el-button>
             </el-form-item>
