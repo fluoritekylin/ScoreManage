@@ -4,49 +4,69 @@
 <head>
     <title>登录</title>
     <meta charset="utf8">
+    <script src="../js/vue.js"></script>
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="unpkg.com/element-ui@2.11.0/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <style>
-    .el-form{
+    body{
+        background-color: #B3C0D1;
+    }
+    h1 {
+        font-family: 华文琥珀;
+        color: #333333;
+        width: 300px;
+        margin: auto;
+    }
+
+    .el-form {
         display: flex;
-        flex-flow: wrap column;
+        flex-direction: column;
+        /* flex-wrap: wrap;换行 */
+        /* flex-flow: wrap column; */
+        align-items: center;
         margin-top: 100px;
+
+    }
+
+    .el-form-item {
+        width: 350px;
+        margin: 20px;
     }
 </style>
 
-<body style="background-color: #B3C0D1">
-<h1 align="center" style="font-family: 华文琥珀;color: #333333;margin-top: 20px">成绩管理系统登录</h1>
-<div id="app" align="center">
-    <el-form ref="form":model="form" label-width="100px">
-        <el-form-item label="用户ID：">
-             <el-input type="text" v-model="form.checkID" maxlength="8" show-word-limit></el-input>
-        </el-form-item>
-        <el-form-item label="用户密码：">
-             <el-input placeholder="请输入密码" v-model="form.input" show-password></el-input>
-        </el-form-item>
-        <el-form-item label="身份：">
-             <el-select v-model="form.type" placeholder="请选择">
-                 <el-option label="学生" value="学生"></el-option>
-                 <el-option label="教师" value="教师"></el-option>
-                 <el-option label="管理员" value="管理员"></el-option>
-        </el-select>
-        </el-form-item>
-        <el-form-item>
-        <el-button size="medium" v-on:click="send()">登录</el-button>
-        <el-button size="medium" onclick="window.location.href='/r'">注册</el-button>
-        </el-form-item>
-</el-form>
-</div>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
-<script language="javascript" type="text/javascript">
-    let app = new Vue({
+<body>
+    <h1>成绩管理系统登录</h1>
+    <div id="app">
+        <el-form ref="form" :model="form" label-width="100px" size="medium">
+            <el-form-item label="用户ID：">
+                <el-input type="text" v-model="form.checkID" maxlength="8" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item label="用户密码：">
+                <el-input placeholder="请输入密码" v-model="form.input" show-password></el-input>
+            </el-form-item>
+            <el-form-item label="身份：">
+                <el-select v-model="form.type" placeholder="请选择">
+                    <el-option label="学生" value="学生"></el-option>
+                    <el-option label="教师" value="教师"></el-option>
+                    <el-option label="管理员" value="管理员"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item id="btns">
+                <el-button size="medium" v-on:click="send()">登录</el-button>
+                <el-button size="medium" onclick="window.location.href='/r'">注册</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+    <script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script language="javascript" type="text/javascript">
+        let app = new Vue({
             el: '#app',
             data() {
                 return {
-                    form:{
+                    form: {
                         type: '',
                         checkID: '',
                         input: ''
@@ -58,24 +78,21 @@
                     var ID = app.form.checkID;
                     var key = app.form.input;
                     console.log(app.form.checkID)
-                    $.post("/hello", {id:ID, Psword:key }, function (judge) {
-                        if(judge==="学生登陆成功")
-                        {
+                    $.post("/hello", { id: ID, Psword: key }, function (judge) {
+                        if (judge === "学生登陆成功") {
                             //var name=app.form.checkID;
                             console.log(ID)
-                            location.href='student.html?'+'txt='+encodeURI(app.form.checkID);
+                            location.href = 'student.html?' + 'txt=' + encodeURI(app.form.checkID);
                             //window.location.href='/index';
                         }
-                        else if (judge==="教师登陆成功")
-                        {
-                            var name=app.form.checkID;
+                        else if (judge === "教师登陆成功") {
+                            var name = app.form.checkID;
                             console.log(name)
-                            location.href='teacher.html?'+'txt='+encodeURI(name);
+                            location.href = 'teacher.html?' + 'txt=' + encodeURI(name);
                             //window.location.href='/index';
                         }
-                        else if(judge==="教务处登录成功")
-                        {
-                            window.location.href='/administrator';
+                        else if (judge === "教务处登录成功") {
+                            window.location.href = '/administrator';
                         }
                         alert(judge);
                     })
@@ -85,8 +102,8 @@
             }
 
         }
-    )
-</script>
+        )
+    </script>
 </body>
-</html>
 
+</html>
