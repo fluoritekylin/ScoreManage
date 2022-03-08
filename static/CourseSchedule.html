@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
+    <script src="../js/vue.js"></script>
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="unpkg.com/element-ui@2.11.0/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <style>
     .el-menu-item {
@@ -104,8 +107,6 @@
         </el-container>
     </div>
 </body>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
 <script>
     let app = new Vue({
@@ -113,7 +114,21 @@
         data() {
             return {
                 length:'',
-                tableData: [],
+                tableData: [
+                    {
+                        cou_ID:10000,
+                        cou_Name:'english',
+                        cou_Teacher:'mike',
+                        cou_Time:'10:00',
+                        cou_Location:'1-101',
+                        isTime:true,
+                        isLoc:true,
+                        isEditT:false,
+                        isEditL:false,
+                        isEdit:true,
+                        isSave:false
+                    }
+                ],
                 currentPage:1,
                 // 总条数，根据接口获取数据长度(注意：这里不能为空)
                 totalCount:1,
@@ -158,27 +173,27 @@
                 this.currentPage=val
             }
         },
-        mounted(){
-            $.post("/getCourse",function(d){
-                     var len =d.length;
-                     app.totalCount=d.length;
-                     for(var i=0;i<len;i++){
-                         d[i].isTime=true;//控制输入框
-                         d[i].isEditT=false;
-                         d[i].isLoc=true;
-                         d[i].isEditL=false;
-                         d[i].isEdit=true;
-                         d[i].isSave=false;
-                         var time=d[i].cou_Time;//处理显示时间
-                         var temp=new Date(time);
-                         var times=temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate() + ' ' + temp.getHours() + ':' + temp.getMinutes() + ':' + temp.getSeconds();
-                         if(times==="1970-1-1 8:0:0") d[i].cou_Time=' ';
-                         else                         d[i].cou_Time=times;
-                     }
-                     app.tableData=d;
-                })
+        // mounted(){
+        //     $.post("/getCourse",function(d){
+        //              var len =d.length;
+        //              app.totalCount=d.length;
+        //              for(var i=0;i<len;i++){
+        //                  d[i].isTime=true;//控制输入框
+                        //  d[i].isEditT=false;
+                        //  d[i].isLoc=true;
+                        //  d[i].isEditL=false;
+                        //  d[i].isEdit=true;
+                        //  d[i].isSave=false;
+        //                  var time=d[i].cou_Time;//处理显示时间
+        //                  var temp=new Date(time);
+        //                  var times=temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate() + ' ' + temp.getHours() + ':' + temp.getMinutes() + ':' + temp.getSeconds();
+        //                  if(times==="1970-1-1 8:0:0") d[i].cou_Time=' ';
+        //                  else                         d[i].cou_Time=times;
+        //              }
+        //              app.tableData=d;
+        //         })
 
-        }
+        // }
     })
 </script>
 

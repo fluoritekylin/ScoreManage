@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>个人主页</title>
+    <script src="../js/vue.js"></script>
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="unpkg.com/element-ui@2.11.0/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <style>
     .info {
@@ -54,7 +57,7 @@
             <el-main>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="t_ID" :span="12">
+                        <label :value="t_ID" :span="12">
                             工号：{{t_ID}}
                         </label>
                         <el-divider></el-divider>
@@ -62,7 +65,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="username" :span="12">
+                        <label :value="username" :span="12">
                             姓名：{{username}}
                         </label>
                         <el-divider></el-divider>
@@ -70,7 +73,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="sex" :span="12">
+                        <label :value="sex" :span="12">
                             性别：{{sex}}
                         </label>
                         <el-divider></el-divider>
@@ -78,7 +81,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="dept" :span="12">
+                        <label :value="dept" :span="12">
                             部门：{{dept}}
                         </label>
                         <el-divider></el-divider>
@@ -86,7 +89,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="birthdate" :span="12">
+                        <label :value="birthdate" :span="12">
                             出生日期：{{birthdate}}
                         </label>
                         <el-divider></el-divider>
@@ -94,7 +97,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="phoneNum" :span="12">
+                        <label :value="phoneNum" :span="12">
                             联系电话：{{phoneNum}}
                         </label>
                         <el-divider></el-divider>
@@ -102,7 +105,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <label v-model="email" :span="12">
+                        <label :value="email" :span="12">
                             电子邮箱：{{email}}
                         </label>
                         <el-divider></el-divider>
@@ -113,8 +116,6 @@
     </el-container>
 </div>
 </body>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
 <script>
     let app = new Vue({

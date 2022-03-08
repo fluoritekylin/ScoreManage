@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>个人主页</title>
+    <script src="../js/vue.js"></script>
+    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="unpkg.com/element-ui@2.11.0/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <style>
     /* .btn{
@@ -33,7 +36,7 @@
 </style>
 <body>
     <div id="app">
-        <el-container style="height: 500px; border: 1px solid #eee">
+        <el-container style="border: 1px solid #eee">
             <el-aside width="250px" style="background-color: rgb(238, 241, 246)">
                 <el-menu default-active="1-4" :default-openeds="openeds">
                     <el-submenu index="1">
@@ -65,9 +68,9 @@
                         </el-table-column>
                     </el-table>
                     <div align="center" style="margin-top: 15px"> 
-                            <el-button size="mini" @click="handleEdit()"
+                            <el-button @click="handleEdit()"
                             class="btn" v-if="alter">编辑</el-button>
-                            <el-button size="mini" @click="send()" 
+                            <el-button @click="send()" 
                             class="btn" v-if="save">保存</el-button>
                             <!-- <el-button size="mini" @click="maintain()" 
                             class="btn" v-if="cancel">取消</el-button> -->
@@ -77,8 +80,6 @@
         </el-container>
     </div>
 </body>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="js/jquery-3.4.1/jquery-3.4.1.js"></script>
 <script>
     let app = new Vue({
